@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="images/favicon.gif">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KONTAXIA - Contrary to the Axis</title>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #FFFFFF;
+      font-family: Monospace;
+      margin: 0;
+      padding: 0;
+      transition: background-color 1s, color 1s;
+    }
+    header {
+      position: relative;
+      height: 350px;
+      overflow: hidden;
+      border-bottom: 2px solid #F41B22;
+      transition: border-bottom-color 1s;
+    }
+    #headerVideo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+    .top-left, .top-right {
+      position: absolute;
+      top: 10px;
+      z-index: 3;
+      font-size: 1.5em;
+      color: black;
+      font-family: monospace;
+      transition: color 1s;
+    }
+    .top-left {
+      left: 20px;
+    }
+    .top-right {
+      right: 20px;
+    }
+    .headerContent {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 100px 20px 40px 20px;
+    }
+    .headerContent h1 {
+      font-size: 6em;
+      color: black;
+      margin: 0;
+      transition: color 1s;
+    }
+    .headerContent h1::after {
+      content: '™';
+      font-size: 0.4em;
+      vertical-align: super;
+      margin-left: 5px;
+    }
+    .headerContent p {
+      font-size: 1.6em;
+      color: black;
+      transition: color 1s;
+    }
+    section {
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h2 {
+      color: #F41B22;
+      border-bottom: 1px solid #F41B22;
+      padding-bottom: 5px;
+      transition: color 1s, border-bottom-color 1s;
+    }
+    .passion-list li {
+      margin-bottom: 10px;
+    }
+    .axis-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .axis-text {
+      flex: 1 1 60%;
+    }
+    .axis-symbol {
+      flex: 1 1 30%;
+      text-align: center;
+    }
+    .axis-symbol img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+    }
+    footer {
+      background-color: #F41B22;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: black;
+      transition: background-color 1s, color 1s;
+    }
+    .theme-button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #F41B22;
+      color: white;
+      border: none;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.5s;
+    }
+  </style>
+<script>
+  let themeChanged = false;
+
+  function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    const timeString = hours + ':' + minutes;
+    document.getElementById('clock').textContent = timeString;
+  }
+
+  function toggleTheme() {
+    const video = document.getElementById('headerVideo');
+    const header = document.querySelector('header');
+    const footer = document.querySelector('footer');
+    const h1 = document.querySelector('.headerContent h1');
+    const h2s = document.querySelectorAll('h2');
+    const topLeft = document.querySelector('.top-left');
+    const topRight = document.querySelector('.top-right');
+    const headerText = document.querySelector('.headerContent p');
+    const themeButton = document.querySelector('.theme-button');
+
+    if (!themeChanged) {
+      video.querySelector('source').src = 'images/Black_SeaBlue.mp4';
+      video.load();
+      header.style.borderBottomColor = 'skyblue';
+      footer.style.backgroundColor = 'skyblue';
+      h1.style.color = 'white';
+      h2s.forEach(h2 => {
+        h2.style.color = 'skyblue';
+        h2.style.borderBottomColor = 'skyblue';
+      });
+      topLeft.style.color = 'white';
+      topRight.style.color = 'white';
+      headerText.style.color = 'white';
+      themeButton.style.backgroundColor = 'skyblue';
+      themeButton.style.color = 'black'; // make text readable on skyblue
+      themeChanged = true;
+    } else {
+      video.querySelector('source').src = 'images/Black_Sea.mp4';
+      video.load();
+      header.style.borderBottomColor = '#911f1f';
+      footer.style.backgroundColor = '#F41B22';
+      h1.style.color = 'black';
+      h2s.forEach(h2 => {
+        h2.style.color = '#F41B22';
+        h2.style.borderBottomColor = '#F41B22';
+      });
+      topLeft.style.color = 'black';
+      topRight.style.color = 'black';
+      headerText.style.color = 'black';
+      themeButton.style.backgroundColor = '#F41B22';
+      themeButton.style.color = 'white';
+      themeChanged = false;
+    }
+  }
+
+  setInterval(updateClock, 1000);
+  window.onload = updateClock;
+</script>
+</head>
+<body>
+  <header>
+    <video autoplay muted loop playsinline id="headerVideo">
+      <source src="images/Black_Sea.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="top-left">
+      <strong>EUXIN</strong>
+    </div>
+    <div class="top-right">
+      <span id="clock"></span>
+    </div>
+    <div class="headerContent">
+      <h1>KONTAXIA</h1>
+      <p>Contrary to the Axis</p>
+    </div>
+  </header>
+
+  <button class="theme-button" onclick="toggleTheme()">III</button>
+
+  <section>
+    <h2>About the Game</h2>
+    <p>
+      KONTAXIA is a single-player, stealth-action, spiritually-driven video game set in our present time. Rooted in Orthodox Christian tradition, it follows a group of teenagers from the Romanian village of AXRED as they grow, struggle, and train to resist the passions of the fallen world.
+    </p>
+    <p>
+      The name "KONTAXIA" comes from "contrary" (with a K) and "axis"—symbolizing resistance against the axis of the world and its passions. It reflects a journey against the spiritual decay that defines modern life.
+    </p>
+    <p>
+      Note: the game is still in development.
+    </p>
+  </section>
+
+  <section>
+    <h2>The AXIS</h2>
+    <div class="axis-container">
+      <div class="axis-text">
+        <p>
+          The AXIS represents the three-dimensional(XYZ) world we live in, the world of form and direction—the space through which passions travel. To become contrary to the AXIS is to go against the expected flow of the world and embrace spiritual struggle.
+        </p>
+      </div>
+      <div class="axis-symbol">
+        <img src="images/AXIS_Symbol.png" alt="AXIS Symbol">
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Core Themes</h2>
+    <ul>
+      <li><strong>Theosis:</strong> The ultimate goal is union with God through inner transformation.</li>
+      <li><strong>The Old Man:</strong> The fallen self that gains strength when the player fails spiritual warfare encounters.</li>
+      <li><strong>Orthodox Tradition:</strong> Prayer, confession, and virtues serve as mechanics and narrative elements.</li>
+      <li><strong>Red Sky Events:</strong> Apocalyptic moments of inner warfare where demons manifest and only silhouettes remain.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>One and Only Enemy</h2>
+    <p>
+      The game is focused on the eight deadly passions:
+    </p>
+    <ul class="passion-list">
+      <li>1. Gluttony</li>
+      <li>2. Lust</li>
+      <li>3. Greed</li>
+      <li>4. Anger</li>
+      <li>5. Sadness</li>
+      <li>6. Acedia (spiritual laziness)</li>
+      <li>7. Vainglory</li>
+      <li>8. Pride</li>
+    </ul>
+    <p>
+      Each passion is encountered symbolically in the world and its defeat brings the player closer to clarity.
+    </p>
+  </section>
+
+  <section>
+    <h2>AXRED</h2>
+    <p>
+      The village of AXRED is the heart of the game—a place of tradition, stillness, and depth. As the player progresses and grows spiritually, the village transforms, reflecting their inner state through visuals, music, and interactions with its people.
+    </p>
+  </section>
+
+  <section>
+    <h2>Philosophy</h2>
+    <p>
+      KONTAXIA isn’t just a game—it’s an inner journey. It challenges players to confront not just external enemies, but the passions within. It is an invitation to stillness, repentance, and ultimately, to become contrary to the world—and united with God.
+    </p>
+  </section>
+
+  <footer>
+    &copy; 2025 EUXIN. All rights reserved.
+  </footer>
+</body>
+</html>
