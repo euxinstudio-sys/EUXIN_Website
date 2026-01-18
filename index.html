@@ -1,1 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="images/favicon.gif">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | EUXIN</title>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #FFFFFF;
+      font-family: Monospace;
+      margin: 0;
+      padding: 0;
+      transition: background-color 1s, color 1s;
+    }
+      header {
+          position: relative;
+          height: 350px;
+          overflow: hidden;
+          border-bottom: 2px solid deepskyblue;
+          transition: border-bottom-color 1s;
+      }
+    #headerVideo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+    .top-left, .top-right {
+      position: absolute;
+      top: 10px;
+      z-index: 3;
+      font-size: 1.5em;
+      color: white;
+      font-family: monospace;
+      transition: color 1s;
+    }
+    .top-left {
+      left: 20px;
+    }
+    .top-right {
+      right: 20px;
+    }
+    .headerContent {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 100px 20px 40px 20px;
+    }
+    .headerContent h1 {
+      font-size: 6em;
+      color: white;
+      margin: 0;
+      transition: color 1s;
+    }
+    .headerContent h1::after {
+      content: '™';
+      font-size: 0.4em;
+      vertical-align: super;
+      margin-left: 5px;
+    }
+    .headerContent p {
+      font-size: 1.6em;
+      color: white;
+      transition: color 1s;
+    }
+    section {
+      padding: 25px 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+      h2 {
+          font-size: 40px;
+          color: deepskyblue;
+          border-bottom: 1px solid deepskyblue;
+          padding-bottom: 5px;
+          transition: color 1s, border-bottom-color 1s;
+      }
+
+      section p{
+          font-size: 15px;
+      }
+
+    .passion-list li {
+      margin-bottom: 10px;
+    }
+    .axis-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .axis-text {
+      flex: 1 1 60%;
+    }
+    .axis-symbol {
+      flex: 1 1 30%;
+      text-align: center;
+    }
+    .axis-symbol img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+    }
+      footer {
+          background-color: deepskyblue;
+          text-align: center;
+          padding: 20px;
+          font-size: 0.9em;
+          color: black;
+          transition: background-color 1s, color 1s;
+      }
+      .theme-button {
+          display: flex;
+          width: 350px;
+          height: 30px;
+          margin: 30px auto;
+          padding: 0;
+          border: none;
+          background: none;
+          cursor: pointer;
+          font-family: 'Segoe UI';
+      }
+
+          .theme-button .segment {
+              flex: 1;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 1.4em;
+              transition: background-color 0.5s, color 0.5s;
+          }
+
+          /* Default (Blue theme active) */
+          .theme-button .left {
+              background-color: black;
+              color: deepskyblue;
+          }
+
+          .theme-button .right {
+              background-color: deepskyblue;
+              color: black;
+          }
+      /* --- Concept Art Gallery --- */
+      .gallery {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 20px;
+          margin-top: 30px;
+      }
+
+      .gallery-item {
+          position: relative;
+          overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.15);
+          background-color: #000;
+      }
+
+          .gallery-item img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              display: block;
+              filter: contrast(1.05) brightness(0.95);
+              transition: transform 0.6s ease, filter 0.6s ease;
+          }
+
+          .gallery-item::after {
+              content: "CONCEPT ART";
+              position: absolute;
+              bottom: 10px;
+              left: 10px;
+              font-size: 0.7em;
+              letter-spacing: 0.15em;
+              color: rgba(255,255,255,0.7);
+              opacity: 0;
+              transition: opacity 0.4s ease;
+          }
+
+          .gallery-item:hover img {
+              transform: scale(1.05);
+              filter: contrast(1.15) brightness(1.05);
+          }
+
+          .gallery-item:hover::after {
+              opacity: 1;
+          }
+      /* --- Lightbox --- */
+      .lightbox {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.95);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.4s ease;
+      }
+
+          .lightbox.active {
+              opacity: 1;
+              pointer-events: auto;
+          }
+
+          .lightbox img {
+              max-width: 90%;
+              max-height: 90%;
+              object-fit: contain;
+              box-shadow: 0 0 40px rgba(0,0,0,0.8);
+          }
+
+
+      .social-links {
+          display: flex;
+          gap: 20px;
+          margin-top: 20px;
+          justify-content: center;
+          flex-wrap: wrap;
+      }
+
+      .social-gif img {
+          width: 120px;
+          height: auto;
+          cursor: pointer;
+          transition: transform 0.3s ease, filter 0.3s ease;
+      }
+
+          .social-gif img:hover {
+              transform: scale(1.08);
+              filter: brightness(1.15);
+          }
+      .p-with-icon {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          margin-left: 0px;
+          margin-bottom: -40px;
+          margin-top: -40px;
+      }
+
+      .p-gif {
+          width: 100px; /* adjust as needed */
+          height: auto;
+      }
+  </style>
+<script>
+  let themeChanged = false;
+
+  function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    const timeString = hours + ':' + minutes;
+    document.getElementById('clock').textContent = timeString;
+  }
+
+    function toggleTheme() {
+        const pGif = document.querySelector('.p-gif');
+        const yGif = document.querySelector('.y-gif');
+        const iGif = document.querySelector('.i-gif');
+    const video = document.getElementById('headerVideo');
+    const header = document.querySelector('header');
+    const footer = document.querySelector('footer');
+    const h1 = document.querySelector('.headerContent h1');
+    const h2s = document.querySelectorAll('h2');
+    const topLeft = document.querySelector('.top-left');
+    const topRight = document.querySelector('.top-right');
+    const headerText = document.querySelector('.headerContent p');
+    const themeButton = document.querySelector('.theme-button');
+
+    if (!themeChanged) {
+      video.querySelector('source').src = 'images/Black_Sea.mp4';
+      video.load();
+        header.style.borderBottomColor = '#F41B22';
+        footer.style.backgroundColor = '#F41B22';
+      h1.style.color = 'black';
+      h2s.forEach(h2 => {
+          h2.style.color = '#F41B22';
+          h2.style.borderBottomColor = '#F41B22';
+      });
+      topLeft.style.color = 'black';
+      topRight.style.color = 'black';
+      headerText.style.color = 'black';
+        themeButton.querySelector('.left').style.backgroundColor = '#F41B22';
+        themeButton.querySelector('.left').style.color = 'black';
+
+        themeButton.querySelector('.right').style.backgroundColor = 'black';
+        themeButton.querySelector('.right').style.color = '#F41B22';
+        // 🔴 CHANGE GIF
+        pGif.src = 'images/Aviators_Red.gif';
+        yGif.src = 'images/YT_Red.gif';
+        iGif.src = 'images/Insta_Red.gif';
+      themeChanged = true;
+    } else {
+      video.querySelector('source').src = 'images/Black_SeaBlue.mp4';
+      video.load();
+      header.style.borderBottomColor = 'deepskyblue';
+        footer.style.backgroundColor = 'deepskyblue';
+      h1.style.color = 'white';
+      h2s.forEach(h2 => {
+          h2.style.color = 'deepskyblue';
+          h2.style.borderBottomColor = 'deepskyblue';
+      });
+        topLeft.style.color = 'white';
+        topRight.style.color = 'white';
+      headerText.style.color = 'white';
+        themeButton.querySelector('.left').style.backgroundColor = 'black';
+        themeButton.querySelector('.left').style.color = 'deepskyblue';
+
+        themeButton.querySelector('.right').style.backgroundColor = 'deepskyblue';
+        themeButton.querySelector('.right').style.color = 'black';
+        // 🔵 CHANGE GIF BACK
+        pGif.src = 'images/Aviators_Blue.gif';
+        yGif.src = 'images/YT_Blue.gif';
+        iGif.src = 'images/Insta_Blue.gif';
+
+      themeChanged = false;
+    }
+  }
+
+  setInterval(updateClock, 1000);
+    window.onload = updateClock;
+
+
+    function openLightbox(img) {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        lightboxImage.src = img.src;
+        lightbox.classList.add('active');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeLightbox();
+        }
+    });
+
+</script>
+</head>
+<body>
+    <header>
+        <video autoplay muted loop playsinline id="headerVideo">
+            <source src="images/Black_SeaBlue.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="top-left">
+            <strong>EUXIN</strong>
+        </div>
+        <div class="top-right">
+            <span id="clock"></span>
+        </div>
+        <div class="headerContent">
+            <h1>KONTAXIA</h1>
+            <p>Contrary to the Axis</p>
+        </div>
+    </header>
+
+    <button class="theme-button" onclick="toggleTheme()">
+        <span class="segment left">I</span>
+        <span class="segment right">II</span>
+    </button>
+    <section>
+        <h2>EUXIN</h2>
+        <div class="p-with-icon">
+            <p>Welcome to my website!</p>
+            <img class="p-gif" src="images/Aviators_Blue.gif" alt="EUXIN symbol">
+        </div>
+        <p>
+            My name is OrthoSamurai, I am a solo game developer curently working on AXRED.
+        </p>
+        <p>
+            It is a blessing to have you here and I hope you'll enjoy my work!
+        </p>
+        <p>
+            My only platforms as of now are on Youtube, Instagram and this website. Any other accounts with my name or brand are not official.
+        </p>
+        <div class="social-links">
+            <a class="social-gif" href="https://www.youtube.com/@EUXINStudios" target="_blank">
+                <img class="y-gif" src="images/YT_Blue.gif" alt="YouTube">
+            </a>
+
+            <a class="social-gif" href="https://www.instagram.com/euxin_studio/" target="_blank">
+                <img class="i-gif" src="images/Insta_Blue.gif" alt="Instagram">
+            </a>
+        </div>
+    </section>
+
+    <section>
+        <h2>AXRED</h2>
+        <p>
+            AXRED is a stealth-action video game set in our current times.
+        </p>
+        <p>
+            The fight for the soul betwen the young and the old. You are your worst enemy. Can you defeat yourself?
+        </p>
+        <p>
+            Another name for the world is the AXIS. This synonim represents the 3-dimensional(XYZ) realm of form and direction, the space through which passions travel.
+        </p>
+        <p>
+            The AXIS also takes the shape of an military organisation established by the demons as a means of killing the souls of people before they physically die.
+        </p>
+        <p>
+            Vali, a teenager, in his pursuit of overcoming the world, is being offered by the Old-Man, in other words his old-self, that if he bows to the powers of evil, he will be given the chance of becoming the ANTI, a distorted, false figure of God, and put an end to the world.
+        </p>
+        <p>
+            The soul loves the body, yet the body hates the soul. Vali finds himself in a state of constant and agonizing despair. Crushed by temptations from the Old-Man, he starts seeing the world differently.
+        </p>
+        <p>
+            The story touches the themes of self-reflection, depression, anxiety, addiction, violence and the broken home.
+        </p>
+        <p>
+            The main objective is not settling for second best, but for the Ultimate. The life of the world to come.
+        </p>
+        <p>
+            Do not let the old become the young.
+        </p>
+        <p>
+            Note: The game is still in development.
+        </p>
+    </section>
+
+    <section>
+        <h2>KONTAXIA</h2>
+        <p>
+            The story takes place after the events of AXRED.
+        </p>
+        <p>
+            [Updates in the future, at the moment the development is focused on AXRED]
+        </p>
+    </section>
+
+    <section>
+        <h2>Gallery - concept Art</h2>
+
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="images/Death_Hour.webp" alt="Concept Art 1" onclick="openLightbox(this)">
+            </div>
+
+            <div class="gallery-item">
+                <img src="images/Enemy_Desert.webp" alt="Concept Art 2" onclick="openLightbox(this)">
+            </div>
+
+            <div class="gallery-item">
+                <img src="images/Paratrooper.webp" alt="Concept Art 3" onclick="openLightbox(this)">
+            </div>
+            <div class="gallery-item">
+                <img src="images/Tropical_Birds.webp" alt="Concept Art 3" onclick="openLightbox(this)">
+            </div>
+        </div>
+    </section>
+    <section>
+        <h2>Contact</h2>
+        <p>
+            If you have any questions or want to help me in a certain way with development you can acces this email!
+        </p>
+        <p><a href="mailto:euxin.studio@gmail.com">euxin.studio@gmail.com</a></p>
+        <p>A response is not guaranteed!!</p>
+    </section>
+
+    <footer>
+        &copy; 2025 EUXIN. All rights reserved.
+    </footer>
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <img id="lightboxImage" src="" alt="Expanded view">
+    </div>
+</body>
+</html>
 
